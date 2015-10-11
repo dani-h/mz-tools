@@ -1,1 +1,2 @@
-# MZ Tool to store training report history
+# mz-tools
+Scripts that store MZ training report history.
