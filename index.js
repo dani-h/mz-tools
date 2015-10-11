@@ -5,6 +5,14 @@ let storage = require('./lib/storage.js');
 let requests = require("./lib/requests");
 let parsers = require("./lib/parsers");
 let localutil = require('./lib/util.js');
+let winston = require('winston');
+
+winston.add(winston.transports.File, {
+  filename: localutil.LOGFILE
+});
+
+winston.info('Running scripts.');
+process.on('uncaughtException', (err) => winston.warn(err));
 
 storage.init(localutil.DBFILE).then(db => {
   requests.getCookies()
