@@ -1,0 +1,24 @@
+{
+  "name": "mz-tool",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "bluebird": "^2.10.2",
+    "cheerio": "^0.19.0",
+    "qs": "^5.1.0",
+    "merge": "^1.2.0",
+    "sqlite3": "^3.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.3"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Dani Hodovic",
+  "license": "MIT"
+}
