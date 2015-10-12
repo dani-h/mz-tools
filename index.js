@@ -1,15 +1,10 @@
 "use strict";
 
-let winston = require('winston');
 let yargs = require('yargs');
-
-let localutil = require('./lib/util');
+let winston = require('winston');
+let localutil = require('./lib/localutil');
 let storage = require('./lib/storage');
 let scrapers = require('./lib/scrapers');
-
-winston.add(winston.transports.File, {
-  filename: localutil.LOGFILE
-});
 
 process.on('uncaughtException', (err) => winston.warn(err));
 
