@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 "use strict";
 
 let yargs = require('yargs');
@@ -22,6 +24,6 @@ let args = yargs
 
 if (args.fetch) {
   storage.createDb(localutil.DBFILE).then(db => {
-    scrapers.parseDailyTraining(db);
+    scrapers.fetch(db);
   });
 }
