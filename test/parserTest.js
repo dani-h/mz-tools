@@ -342,13 +342,14 @@ let expected = [{
 
 
 describe('Parser testsuite', function() {
+  this.timeout(5000);
   it('Parse local html and assert that the results stored in the db are as expected',
     function(done) {
       this.timeout(2000);
-      let todaysDate = storage.getMidnightDate();
+      let expectedDate = 1444860000000.0;
       storage.createDb(':memory:').then(db => {
 
-        scrapers.updateDailyTraining(db, html, todaysDate)
+        scrapers.updateDailyTraining(db, html, expectedDate)
           .then(() => storage.getAllPlayersData(db))
           .then(playerData => {
             assert(playerData.length === expected.length);
@@ -358,7 +359,10 @@ describe('Parser testsuite', function() {
               assert.deepEqual(sortedPlayers[i], sortedResult[i]);
             }
           })
-          .then(() => done());
+          .then(() => done())
+          .catch(err => {
+            done(err);
+          });
       });
     });
 });
