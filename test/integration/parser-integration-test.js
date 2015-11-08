@@ -1,18 +1,17 @@
 'use strict';
 
+//node_modules
 let mocha = require('mocha');
 let assert = require('assert');
 let fs = require('fs');
 let path = require('path');
 
-let storage = require('../lib/storage.js');
-let scrapers = require('../lib/scrapers');
+//local imports
+let storage = require('../../lib/storage');
+let scrapers = require('../../lib/scrapers');
 
 let describe = mocha.describe;
 let it = mocha.it;
-
-let html = fs.readFileSync(path.join(__dirname, 'html', 'player-profiles-with-rested.html'))
-  .toString();
 
 let expected = [{
   id: 196598919,
@@ -342,27 +341,36 @@ let expected = [{
 
 
 describe('Parser testsuite', function() {
-  this.timeout(5000);
-  it('Parse local html and assert that the results stored in the db are as expected',
-    function(done) {
-      this.timeout(2000);
-      let expectedDate = 1444860000000.0;
-      storage.createDb(':memory:').then(db => {
+  let htmlfile = 'player-profiles-with-rested.html';
+  let filename = path.join(__dirname, '..', 'html', htmlfile);
+  let html = fs.readFileSync(filename).toString();
 
-        scrapers.updateDailyTraining(db, html, expectedDate)
-          .then(() => storage.getAllPlayersData(db))
-          .then(playerData => {
-            assert(playerData.length === expected.length);
-            let sortedResult = expected.slice().sort((a, b) => b.id - a.id);
-            let sortedPlayers = playerData.slice().sort((a, b) => b.id - a.id);
-            for (let i = 0; i < sortedPlayers.length; i++) {
-              assert.deepEqual(sortedPlayers[i], sortedResult[i]);
-            }
-          })
-          .then(() => done())
-          .catch(err => {
-            done(err);
+  describe('Parses local html and test that the parsers function correctly',
+    function() {
+      it(
+        `expects that the data parsed from local html and the expected results
+        are identical`,
+        function(done) {
+          this.timeout(5000);
+          let expectedDate = 1444860000000.0;
+          storage.createDb(':memory:').then(db => {
+            scrapers.updateDailyTraining(db, html, expectedDate)
+              .then(() => storage.getAllPlayersData(db))
+              .then(playerData => {
+                assert(playerData.length === expected.length);
+                let sortedResult = expected.slice()
+                  .sort((a, b) => b.id - a.id);
+                let sortedPlayers = playerData.slice()
+                  .sort((a, b) => b.id - a.id);
+                for (let i = 0; i < sortedPlayers.length; i++) {
+                  assert.deepEqual(sortedPlayers[i], sortedResult[i]);
+                }
+              })
+              .then(() => done())
+              .catch(err => {
+                done(err);
+              });
           });
-      });
+        });
     });
 });
