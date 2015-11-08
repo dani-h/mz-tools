@@ -5,10 +5,13 @@ let mocha = require('mocha');
 let assert = require('assert');
 let fs = require('fs');
 let path = require('path');
+let sinon = require('sinon');
+let bluebird = require('bluebird');
 
 //local imports
 let storage = require('../../lib/storage');
 let scrapers = require('../../lib/scrapers');
+let requests = require('../../lib/requests');
 
 let describe = mocha.describe;
 let it = mocha.it;
@@ -351,6 +354,11 @@ describe('Parser testsuite', function() {
         `expects that the data parsed from local html and the expected results
         are identical`,
         function(done) {
+          requests.getCookies = sinon.stub.returns(
+            bluebird.resolve({cookies: null}));
+          requests.getAllPlayersHTML = sinon.stub.returns(
+              bluebird.resolve({body: html}));
+
           this.timeout(5000);
           let expectedDate = 1444860000000.0;
           storage.createDb(':memory:').then(db => {
