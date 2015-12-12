@@ -19,3 +19,8 @@ Store your credentials file in $REPO\_ROOT/credentials.json with the structure
 
 You can retrieve this data when logging in to mz by tracking the network request in the developer
 console of your browser.
+
+# Running regularly using cron
+```
+15 4 * * * ${NODE_ROOT}/bin/node ${REPO_ROOT}/index.js -f
+```
