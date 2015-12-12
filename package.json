@@ -12,15 +12,18 @@
     "iconv-lite": "^0.4.13",
     "merge": "^1.2.0",
     "qs": "^5.1.0",
-    "sqlite3": "^3.1.0",
-    "winston": "^1.1.0"
+    "sqlite3": "^3.1.1",
+    "winston": "^1.1.0",
+    "yargs": "^3.31.0"
   },
   "devDependencies": {
     "mocha": "^2.3.3",
     "sinon": "^1.17.2"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha test/unit test/integration",
+    "test-unit": "mocha test/unit",
+    "test-integration": "mocha test/integration"
   },
   "author": "Dani Hodovic",
   "license": "MIT"
