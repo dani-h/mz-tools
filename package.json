@@ -21,7 +21,8 @@
   },
   "devDependencies": {
     "mocha": "^2.3.3",
-    "sinon": "^1.17.2"
+    "sinon": "^1.17.2",
+    "wdio-mocha-framework": "^0.2.12"
   },
   "scripts": {
     "test": "mocha test/unit test/integration",
